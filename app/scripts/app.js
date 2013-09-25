@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp', ['btford.socket-io'])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, socketProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -10,7 +10,7 @@ angular.module('DrupalSocketAngularApp', ['btford.socket-io'])
       .otherwise({
         redirectTo: '/'
       });
-  })
-  .run(function (socket) {
-    socket.forward('error');
+
+    var mySocket = io.connect('http://localhost:5000');
+    socketProvider.ioSocket(mySocket);
   });
