@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .controller('MainCtrl', function ($scope, socket) {
+  .controller('MainCtrl', function ($scope, socket, Jekyllbuild) {
     socket.on('connect', function (data) {
       console.log(data);
 
@@ -12,7 +12,13 @@ angular.module('DrupalSocketAngularApp')
       socket.emit('authenticate', authMessage);
     });
 
+    Jekyllbuild.isDirty().then(function (data) {
+      $scope.isDirty = data;
+    });
+
+
     socket.on('message', function (data) {
       console.log(data);
+      Jekyllbuild.setDirty(true);
     });
   });
