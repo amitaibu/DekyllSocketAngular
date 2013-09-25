@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .controller('MainCtrl', function ($scope, socket, ngProgress) {
+  .controller('MainCtrl', function ($scope, socket) {
     socket.on('connect', function (data) {
       console.log(data);
 
@@ -14,6 +14,5 @@ angular.module('DrupalSocketAngularApp')
 
     socket.on('message', function (data) {
       console.log(data);
-      ngProgress.start();
     });
   });
