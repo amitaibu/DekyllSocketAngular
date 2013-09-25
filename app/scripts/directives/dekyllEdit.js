@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .directive('dekyllEdit', function ($modal) {
+  .directive('dekyllEdit', function ($modal, socket) {
     return {
       template: '<a ng-click="openIframe()">Edit</a>',
       restrict: 'E',
@@ -12,10 +12,14 @@ angular.module('DrupalSocketAngularApp')
         scope.openIframe = function() {
           scope.url = 'http://localhost/dekyll/www/' + type + '/' + id + '/edit';
           // Open the IFrame with the correct URL.
-          $modal.open({
+          var modalInstance = $modal.open({
             templateUrl: 'views/dekyll-edit.html',
             controller: ModalInstanceCtrl,
             scope: scope
+          });
+
+          socket.on('message', function (data) {
+            modalInstance.dismiss('cancel');
           });
         };
 
