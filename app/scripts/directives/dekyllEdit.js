@@ -12,11 +12,22 @@ angular.module('DrupalSocketAngularApp')
         scope.openIframe = function() {
           scope.url = 'http://localhost/dekyll/www/' + type + '/' + id + '/edit';
           // Open the IFrame with the correct URL.
-          var modalInstance = $modal.open({
+          $modal.open({
             templateUrl: 'views/dekyll-edit.html',
+            controller: ModalInstanceCtrl,
             scope: scope
           });
+        };
+
+        // Modal controller.
+        var ModalInstanceCtrl = function ($scope, $modalInstance) {
+
+          $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+          };
         };
       }
     };
   });
+
+
