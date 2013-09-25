@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('DrupalSocketAngularApp', ['btford.socket-io', 'ui.bootstrap'])
+angular.module('DrupalSocketAngularApp', ['btford.socket-io', 'ui.bootstrap', 'ngProgress'])
   .config(function ($routeProvider, socketProvider) {
     $routeProvider
       .when('/', {
