@@ -3,7 +3,7 @@
 angular.module('DrupalSocketAngularApp')
   .directive('dekyllEdit', function ($modal) {
     return {
-      template: '<div ng-click="openIframe()">Edit</div>',
+      template: '<a ng-click="openIframe()">Edit</a>',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
         var type = attrs.type ? attrs.type : 'node';
