@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .controller('MainCtrl', function ($scope, socket, Jekyllbuild) {
+  .controller('MainCtrl', function ($scope, socket, Build) {
     socket.on('connect', function (data) {
-      console.log(data);
-
       // @todo: Get token from service.
       var authMessage = {
-        authToken: '6c7dbc1f1db43c2cd1001e60711b57db'
+        authToken: '8afc7914b78830ab420f36e441d1b605'
       };
       socket.emit('authenticate', authMessage);
     });
 
-    Jekyllbuild.isDirty().then(function (data) {
-      $scope.isDirty = data;
+    Build.isDirty().then(function (data) {
+      $scope.build = data;
     });
 
-
-    socket.on('message', function (data) {
-      console.log(data);
-      Jekyllbuild.setDirty(true);
+    socket.on('message', function (message) {
+      Build.setDirty(message.data.build);
     });
+
+    $scope.$watch( function () { return Build.data; }, function (data) {
+      $scope.build = data.build;
+    }, true);
   });

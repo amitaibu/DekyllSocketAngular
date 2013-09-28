@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .service('Jekyllbuild', function Jekyllbuild($q, $http) {
+  .service('Build', function Build($q, $http) {
     return {
 
       // Variable to hold the state.
       data: {},
 
       setDirty: function(value) {
-        this.data.isDirty = value;
+        this.data.build = value;
       },
 
       isDirty: function() {
