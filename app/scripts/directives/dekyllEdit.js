@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .directive('dekyllEdit', function ($modal, socket) {
+  .directive('dekyllEdit', function ($modal, socket, Build) {
     return {
       template: '<a ng-click="openIframe()">Edit</a>',
       restrict: 'E',
@@ -18,9 +18,13 @@ angular.module('DrupalSocketAngularApp')
             scope: scope
           });
 
-          socket.on('message', function (data) {
-            modalInstance.dismiss('cancel');
-          });
+          scope.$watch( function () { return Build.data; }, function (oldVal, newVal) {
+            if (newVal.build === true) {
+              // Reload the page.
+              modalInstance.dismiss('cancel');
+            }
+
+          }, true);
         };
 
         // Modal controller.
