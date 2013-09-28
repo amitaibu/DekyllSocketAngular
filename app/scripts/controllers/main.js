@@ -18,7 +18,11 @@ angular.module('DrupalSocketAngularApp')
       Build.setDirty(message.data.build);
     });
 
-    $scope.$watch( function () { return Build.data; }, function (data) {
-      $scope.build = data.build;
+    $scope.$watch( function () { return Build.data; }, function (oldVal, newVal) {
+      if (oldVal.build === false) {
+        // Reload the page.
+        location.reload();
+      }
+      $scope.build = newVal.build;
     }, true);
   });
