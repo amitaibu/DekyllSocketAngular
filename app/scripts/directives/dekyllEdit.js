@@ -3,8 +3,11 @@
 angular.module('DrupalSocketAngularApp')
   .directive('dekyllEdit', function ($modal, socket, Build) {
     return {
-      template: '<a ng-click="openIframe()">Edit</a>',
+      template: '<a href ng-click="openIframe()">Edit</a>',
       restrict: 'E',
+      scope: {
+        build: '=build'
+      },
       link: function postLink(scope, element, attrs) {
         var type = attrs.type ? attrs.type : 'node';
         var id = attrs.id;
@@ -12,20 +15,19 @@ angular.module('DrupalSocketAngularApp')
         scope.openIframe = function() {
           scope.url = 'http://localhost/dekyll/www/' + type + '/' + id + '/edit';
           // Open the IFrame with the correct URL.
-          var modalInstance = $modal.open({
+          scope.modalInstance = $modal.open({
             templateUrl: 'views/dekyll-edit.html',
             controller: ModalInstanceCtrl,
             scope: scope
           });
-
-          scope.$watch( function () { return Build.data; }, function (oldVal, newVal) {
-            if (newVal.build === true) {
-              // Reload the page.
-              modalInstance.dismiss('cancel');
-            }
-
-          }, true);
         };
+
+        scope.$watch('build', function (newVal, oldVal) {
+          if (oldVal !== true && newVal === true) {
+            // Close the modal.
+            scope.modalInstance.dismiss('cancel');
+          }
+        });
 
         // Modal controller.
         var ModalInstanceCtrl = function ($scope, $modalInstance) {

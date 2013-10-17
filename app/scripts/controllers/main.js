@@ -2,6 +2,7 @@
 
 angular.module('DrupalSocketAngularApp')
   .controller('MainCtrl', function ($scope, socket, Build) {
+
     socket.on('connect', function (data) {
       // @todo: Get token from service.
       var authMessage = {
@@ -10,19 +11,19 @@ angular.module('DrupalSocketAngularApp')
       socket.emit('authenticate', authMessage);
     });
 
-    Build.isDirty().then(function (data) {
+    Build.isBuilding().success(function (data) {
       $scope.build = data;
     });
 
     socket.on('message', function (message) {
       Build.setDirty(message.data.build);
+      $scope.build = message.data.build;
     });
 
-    $scope.$watch( function () { return Build.data; }, function (oldVal, newVal) {
-      if (oldVal.build === false) {
+    $scope.$watch('build', function (newVal, oldVal) {
+      if (oldVal === true && newVal === false) {
         // Reload the page.
         location.reload();
       }
-      $scope.build = newVal.build;
-    }, true);
+    });
   });

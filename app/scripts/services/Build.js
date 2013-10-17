@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DrupalSocketAngularApp')
-  .service('Build', function Build($q, $http) {
+  .service('Build', function Build($http) {
     return {
 
       // Variable to hold the state.
@@ -11,20 +11,13 @@ angular.module('DrupalSocketAngularApp')
         this.data.build = value;
       },
 
-      isDirty: function() {
-        var defer = $q.defer();
-
-        $http({
+      isBuilding: function() {
+        return $http({
           method: 'GET',
-          url: 'https://localhost/dekyll/www/jekyll-build',
+          url: 'http://localhost/dekyll/www/jekyll-build',
           // Cache the results.
           withCredentials: true
-        })
-          .success(function (data) {
-            defer.resolve(data);
-          });
-
-        return defer.promise;
+        });
       }
     };
   });
